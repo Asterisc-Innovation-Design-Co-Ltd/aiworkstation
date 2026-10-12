@@ -29,8 +29,9 @@
   function FrameSequence(opts) {
     this.canvas = opts.canvas;
     this.ctx = this.canvas.getContext('2d');
-    this.focusX = opts.focusX == null ? 0.5 : opts.focusX;
-    this.focusY = opts.focusY == null ? 0.5 : opts.focusY;
+    /* 畫面裁切時要置中的位置（影格寬、高的比例）；可隨時更改後呼叫 redraw() */
+    this.centerX = opts.centerX == null ? 0.5 : opts.centerX;
+    this.centerY = opts.centerY == null ? 0.5 : opts.centerY;
     this.onFirstFrame = opts.onFirstFrame || null;
     this.progress = 0;   // 目前繪製的進度（平滑後）
     this.target = 0;     // 捲動進度
@@ -164,9 +165,16 @@
     var dw = iw * s, dh = ih * s;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(img, (c.width - dw) * this.focusX, (c.height - dh) * this.focusY, dw, dh);
+    var dx = clamp(c.width / 2 - this.centerX * dw, c.width - dw, 0);
+    var dy = clamp(c.height / 2 - this.centerY * dh, c.height - dh, 0);
+    ctx.drawImage(img, dx, dy, dw, dh);
     this._drawn = idx;
     this._force = false;
+  };
+
+  FrameSequence.prototype.redraw = function () {
+    this._force = true;
+    this._schedule();
   };
 
   /* 依容器尺寸與 devicePixelRatio 調整 canvas 解析度 */

@@ -8,8 +8,11 @@
   var root = document.documentElement;
   var MOBILE_QUERY = '(max-width: 767px)';
   var DEFAULT_FRAMES = { desktop: 120, mobile: 60 };
-  /* 轉場 ③ 價格標籤切換點（捲動進度 0–1）：入門型／標準型／高效型。可依 lineup 影片鏡頭停留位置微調 */
-  var LINEUP_STEPS = [0, 1 / 3, 2 / 3];
+  /* 轉場 ③ 價格標籤切換點（捲動進度 0–1）：入門型／標準型／高效型。
+     對齊 lineup 影片中三台主機依序亮起的時間（約 12%、39%、76%）；重做影片後請重新對齊 */
+  var LINEUP_STEPS = [0, 0.38, 0.75];
+  /* 三台主機在影格中的水平位置（寬度比例）；畫面被裁切時（例如直式手機）鏡頭會平移到亮起的那台 */
+  var LINEUP_CENTERS = [0.218, 0.508, 0.795];
 
   if (!root.classList.contains('motion')) return;
   if (!window.gsap || !window.ScrollTrigger || !window.FrameSequence) {
@@ -40,10 +43,11 @@
   /* ---------- 影格序列：捲動進度 ↔ 影格（可逆） ---------- */
   var sequences = [];
 
-  function setupSequence(section, onProgress) {
+  function setupSequence(section, onProgress, centerX) {
     var seq = new window.FrameSequence({
       canvas: section.querySelector('.scrolly__canvas'),
-      urls: frameUrls(section.getAttribute('data-seq'))
+      urls: frameUrls(section.getAttribute('data-seq')),
+      centerX: centerX
     });
     seq.section = section;
     seq.near = false;
@@ -118,11 +122,14 @@
       var dir = i > tier ? 1 : -1;
       gsap.to(labels[tier], { autoAlpha: 0, y: -12 * dir, duration: 0.3, ease: 'power2.out', overwrite: true });
       gsap.fromTo(labels[i], { autoAlpha: 0, y: 12 * dir }, { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out', overwrite: true });
+      if (lineup._seq) {
+        gsap.to(lineup._seq, { centerX: LINEUP_CENTERS[i], duration: 0.9, ease: 'power2.inOut', overwrite: true, onUpdate: function () { lineup._seq.redraw(); } });
+      }
       tier = i;
     };
     lineup._seq = setupSequence(lineup, function (p) {
       showTier(p >= LINEUP_STEPS[2] ? 2 : (p >= LINEUP_STEPS[1] ? 1 : 0));
-    });
+    }, LINEUP_CENTERS[0]);
   }
 
   sequences.forEach(function (seq) {

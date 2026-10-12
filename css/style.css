@@ -284,7 +284,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   background: radial-gradient(ellipse at 50% 55%, #2A241D 0%, #14120F 70%);
 }
 .scrim--inflow {
-  background: linear-gradient(90deg, rgba(246, 242, 234, 0.9) 0%, rgba(246, 242, 234, 0.7) 32%, rgba(246, 242, 234, 0) 60%);
+  background: linear-gradient(90deg, rgba(246, 242, 234, 0.85) 0%, rgba(246, 242, 234, 0.6) 30%, rgba(246, 242, 234, 0) 54%);
 }
 .inflow__wrap { position: relative; z-index: 2; }
 .inflow__line {
@@ -292,8 +292,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
   max-width: 620px;
 }
 @media (max-width: 767px) {
+  /* 手機：文字放上方，主機留在畫面中央 */
+  .scrolly--inflow .scrolly__stage { justify-content: flex-start; }
+  .inflow__wrap { padding-top: 14vh; padding-bottom: 40px; }
   .scrim--inflow {
-    background: linear-gradient(180deg, rgba(246, 242, 234, 0) 0%, rgba(246, 242, 234, 0.86) 30%, rgba(246, 242, 234, 0.86) 70%, rgba(246, 242, 234, 0) 100%);
+    background: linear-gradient(180deg, rgba(246, 242, 234, 0.88) 0%, rgba(246, 242, 234, 0.7) 28%, rgba(246, 242, 234, 0) 46%);
   }
 }
 
