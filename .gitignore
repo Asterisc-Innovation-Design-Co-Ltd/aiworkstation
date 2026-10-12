@@ -1,0 +1,10 @@
+# 寄信設定（含收件信箱、Turnstile secret）：由 api/config.sample.php 複製後填寫，不進版本控制
+#   cp api/config.sample.php api/config.php
+api/config.php
+
+# 從 Higgsfield 下載的原始素材（只用來產生 assets/ 內的網站素材，不需上傳主機）
+/assets-src/
+
+# 系統檔
+.DS_Store
+Thumbs.db

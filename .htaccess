@@ -1,0 +1,97 @@
+# ==========================================================================
+# FEELWONDER 企業大腦主機 — Apache 設定（hosting.com cPanel）
+# ==========================================================================
+
+Options -Indexes
+DirectoryIndex index.html
+AddDefaultCharset utf-8
+
+# ---------- 強制 HTTPS ----------
+# 同時檢查 X-Forwarded-Proto，接 Cloudflare 時不會無限轉址
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ---------- 不對外公開的檔案 ----------
+<IfModule mod_alias.c>
+  RedirectMatch 404 ^/(tools|assets-src)(/|$)
+  RedirectMatch 404 /\.(git|github)(/|$)
+</IfModule>
+<FilesMatch "(^\.|\.(md|sh|ps1|txt|log)$)">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+<FilesMatch "^robots\.txt$">
+  <IfModule mod_authz_core.c>
+    Require all granted
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Allow from all
+  </IfModule>
+</FilesMatch>
+
+# ---------- MIME ----------
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType image/avif .avif
+  AddType video/webm .webm
+  AddType video/mp4 .mp4 .m4v
+  AddType image/svg+xml .svg
+  AddType font/woff2 .woff2
+  AddType font/woff .woff
+  AddType application/javascript .js
+  AddType application/json .json
+  AddType text/css .css
+</IfModule>
+
+# ---------- 壓縮：可用時 Brotli，否則 Gzip ----------
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/xml application/javascript application/json application/xml image/svg+xml
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+# ---------- 快取 ----------
+<IfModule mod_headers.c>
+  # 圖片、影格、影片、字型：1 年（重新產生素材時 tools/process_assets.sh 會更新網址上的 ?v= 版本號）
+  <FilesMatch "\.(webp|avif|png|jpe?g|gif|svg|ico|mp4|m4v|webm|woff2?|ttf|otf)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # HTML：不快取（每次向主機確認最新版本）
+  <FilesMatch "\.html?$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  # CSS／JS 檔名沒有版本號：每次確認是否有更新（未變更時主機回 304，不會重新下載）
+  <FilesMatch "\.(css|js|json)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# 未啟用 mod_headers 時的備援
+<IfModule !mod_headers.c>
+  <IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType video/mp4 "access plus 1 year"
+    ExpiresByType video/webm "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType text/html "access plus 0 seconds"
+  </IfModule>
+</IfModule>

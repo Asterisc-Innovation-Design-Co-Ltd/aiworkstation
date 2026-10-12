@@ -1,0 +1,15 @@
+# 設定檔不可從網路直接存取（只給 submit.php 讀取）
+<FilesMatch "^config(\.sample)?\.php$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+# API 回應不快取
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-store"
+</IfModule>

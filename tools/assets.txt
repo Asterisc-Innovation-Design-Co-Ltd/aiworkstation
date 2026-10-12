@@ -1,0 +1,8 @@
+assets-src/video/hero.mp4 https://d8j0ntlcm91z4.cloudfront.net/user_3J8qeUf3EHjWWTXsdXMazQmnOxu/hf_20261012_132842_e848b67c-2ad6-48d3-9d02-75e691ad4e93.mp4
+assets-src/video/inflow.mp4 https://d8j0ntlcm91z4.cloudfront.net/user_3J8qeUf3EHjWWTXsdXMazQmnOxu/hf_20261012_135932_7a6d73f3-129f-42e4-9137-f1d12c2db1b3.mp4
+assets-src/video/lineup.mp4 https://d8j0ntlcm91z4.cloudfront.net/user_3J8qeUf3EHjWWTXsdXMazQmnOxu/hf_20261012_135946_92a60588-74a4-4970-9470-3181ae6ceb67.mp4
+assets-src/video/footer-loop.mp4 https://d8j0ntlcm91z4.cloudfront.net/user_3J8qeUf3EHjWWTXsdXMazQmnOxu/hf_20261012_140726_a1dae8a2-601c-42fd-af93-332d0b433006.mp4
+assets-src/img/hero.png https://d8j0ntlcm91z4.cloudfront.net/user_3J8qeUf3EHjWWTXsdXMazQmnOxu/hf_20261012_132645_05ad533c-9103-43ac-a7e4-69ade1d4f61e.png
+assets-src/img/inflow.png https://d8j0ntlcm91z4.cloudfront.net/user_3J8qeUf3EHjWWTXsdXMazQmnOxu/hf_20261012_133252_89923778-328b-4223-8dc1-54ae8ff6d92b.png
+assets-src/img/lineup.png https://d8j0ntlcm91z4.cloudfront.net/user_3J8qeUf3EHjWWTXsdXMazQmnOxu/hf_20261012_133248_7c7c9cb1-a45a-45fe-b297-cc86e62464f1.png
+assets-src/img/footer.png https://d8j0ntlcm91z4.cloudfront.net/user_3J8qeUf3EHjWWTXsdXMazQmnOxu/hf_20261012_140512_92d6eae4-210f-4a44-9d05-fede27aaffea.png
