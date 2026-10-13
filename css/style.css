@@ -397,7 +397,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* 05 規格方案 */
 .section--plans { padding-bottom: var(--section-y); }
 .section--plans > .container:first-child { padding-bottom: var(--sp-48); }
-.plans__body { padding-top: var(--sp-48); }
+.plans__body { padding-top: var(--sp-48); content-visibility: auto; contain-intrinsic-size: auto 2400px; }
 .plan {
   position: relative; background: var(--c-white); border-radius: var(--r-plan);
   padding: 36px 32px; display: flex; flex-direction: column; gap: var(--sp-20);
@@ -419,8 +419,99 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .plans__includes { font-size: 15px; display: flex; flex-wrap: wrap; }
 .plans__includes-list { display: flex; flex-wrap: wrap; flex: 1 1 0; min-width: 240px; }
+@media (max-width: 767px) { .plans__includes > p { flex-basis: 100%; } }
 .plans__includes li { display: inline-block; white-space: nowrap; }
 .plans__includes li:not(:last-child)::after { content: '·'; margin: 0 0.75em; }
+.plan__scale { font-size: 15px; color: var(--c-muted); margin-top: 4px; }
+.plan__price { margin-top: 12px; }
+.plan__price span { font-size: 14px; }
+.plan__care { font-size: 14px; color: var(--c-muted); margin-top: 6px; }
+.plan__facts {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; margin: 0;
+  padding: 16px 0; border-top: 1px solid var(--c-line-soft); border-bottom: 1px solid var(--c-line-soft);
+}
+.plan__facts dt { font-size: 13px; color: var(--c-muted); }
+.plan__facts dd { margin: 0; font-size: 15px; font-weight: 700; }
+.plan__subhead { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.plan__list li { position: relative; padding-left: 14px; }
+.plan__list li::before { content: ''; position: absolute; left: 0; top: 0.72em; width: 5px; height: 5px; border-radius: 50%; background: var(--c-gold); }
+.plan__list li.plan__inherit { padding-left: 0; font-weight: 700; color: var(--c-ink); }
+.plan__list li.plan__inherit::before { display: none; }
+.plan__fit { font-size: 14px; color: var(--c-muted); }
+.plan__fit span { font-weight: 700; color: var(--c-ink); }
+.plan__note { font-size: 13px; color: var(--c-muted); background: var(--c-bg); border-radius: 10px; padding: 10px 12px; }
+.plan--featured .plan__scale, .plan--featured .plan__care, .plan--featured .plan__facts dt,
+.plan--featured .plan__fit, .plan--featured .plan__note { color: var(--c-on-card-muted); }
+.plan--featured .plan__facts { border-color: var(--c-dark-chip); }
+.plan--featured .plan__list li.plan__inherit, .plan--featured .plan__fit span { color: var(--c-on-dark); }
+.plan--featured .plan__note { background: var(--c-dark-card-2); }
+
+/* 怎麼選方案 */
+.choose { display: flex; flex-direction: column; gap: var(--sp-20); }
+.choose__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-16) var(--sp-24); }
+.choose__list li { border-top: 2px solid var(--c-gold); padding-top: var(--sp-16); display: flex; flex-direction: column; gap: 6px; }
+.choose__title { font-weight: 700; font-size: 17px; }
+.choose__list p:not(.choose__title) { color: var(--c-muted); font-size: 15px; }
+@media (max-width: 767px) { .choose__list { grid-template-columns: minmax(0, 1fr); } }
+
+/* 先從一個部門試 */
+.trial {
+  display: flex; flex-wrap: wrap; gap: var(--sp-20) var(--sp-32); align-items: center; justify-content: space-between;
+  background: var(--c-white); border-radius: var(--r-card); padding: var(--sp-28) var(--sp-32);
+}
+.trial__text { flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.trial__title { font-weight: 700; font-size: 20px; }
+.trial__text p:not(.trial__title) { color: var(--c-muted); }
+@media (max-width: 767px) { .trial { padding: var(--sp-24); } .trial .btn { width: 100%; } }
+
+/* 05 成本：雲端訂閱 vs 企業AI主機 */
+.compare { width: 100%; border-collapse: collapse; font-size: 16px; }
+.compare th, .compare td { text-align: left; vertical-align: top; padding: 16px 20px; border-bottom: 1px solid var(--c-dark-chip); }
+.compare thead th { font-family: var(--f-mono); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; color: var(--c-on-dark-muted); }
+.compare thead .compare__ours { color: var(--c-gold); }
+.compare tbody th { width: 16%; font-weight: 700; white-space: nowrap; }
+.compare td { color: var(--c-on-dark-muted); }
+.compare td:last-child { color: var(--c-on-dark); font-weight: 500; background: rgba(212, 168, 92, 0.07); }
+@media (max-width: 767px) {
+  .compare { font-size: 14px; }
+  .compare th, .compare td { padding: 12px 8px; }
+  .compare thead th { font-size: 12px; letter-spacing: 0.04em; }
+  .compare tbody th { width: 22%; white-space: normal; }
+}
+
+/* 三年總持有成本圖（色票已驗證：深色底 #221E19，金 #B98A45／藍 #5B8BC9） */
+.tco { margin: 0; background: var(--c-dark-card); border-radius: var(--r-card); padding: var(--sp-32); display: flex; flex-direction: column; gap: var(--sp-24); }
+.tco__head { display: flex; flex-wrap: wrap; gap: var(--sp-12) var(--sp-24); align-items: baseline; justify-content: space-between; }
+.tco__legend { display: flex; gap: var(--sp-20); font-size: 14px; color: var(--c-on-dark-muted); }
+.tco__legend li { display: inline-flex; align-items: center; gap: 8px; }
+.tco__swatch { width: 12px; height: 12px; border-radius: 3px; }
+.tco__swatch--local, .tco__bar--local { background: #B98A45; }
+.tco__swatch--cloud, .tco__bar--cloud { background: #5B8BC9; }
+.tco__chart { display: flex; flex-direction: column; gap: var(--sp-24); }
+.tco__group { display: grid; grid-template-columns: 120px minmax(0, 1fr) 150px; gap: var(--sp-16); align-items: center; }
+.tco__label { font-weight: 700; font-size: 17px; line-height: 1.3; }
+.tco__label span { display: block; font-weight: 400; font-size: 13px; color: var(--c-on-dark-muted); }
+.tco__bars { display: flex; flex-direction: column; gap: 2px; border-left: 1px solid var(--c-dark-chip); }
+.tco__row { position: relative; display: flex; align-items: center; gap: 10px; min-height: 18px; }
+.tco__bar { flex: none; height: 18px; width: calc(var(--v) * var(--tco-k, 0.72%)); min-width: 3px; border-radius: 0 4px 4px 0; }
+.tco__value { font-family: var(--f-mono); font-size: 13px; color: var(--c-on-dark); white-space: nowrap; }
+.tco__diff { font-size: 14px; font-weight: 700; color: var(--c-on-dark); }
+.tco__note { font-size: 13px; color: var(--c-on-dark-muted); }
+@media (hover: hover) {
+  .tco__row::after {
+    content: attr(data-tip); position: absolute; left: 0; bottom: calc(100% + 6px); z-index: 2;
+    max-width: 320px; padding: 6px 10px; border-radius: 8px; background: var(--c-on-dark); color: var(--c-ink);
+    font-size: 13px; line-height: 1.5; opacity: 0; pointer-events: none; transition: opacity .15s ease;
+  }
+  .tco__row:hover::after { opacity: 1; }
+  .tco__row:hover .tco__bar { filter: brightness(1.15); }
+}
+@media (max-width: 767px) {
+  .tco { padding: var(--sp-20); }
+  .tco__group { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .tco__label span { display: inline; margin-left: 8px; }
+  .tco__bars { --tco-k: 0.6%; }
+}
 @media (max-width: 767px) { .plan { padding: var(--sp-28) var(--sp-24); } }
 
 /* 06 加值服務 */
