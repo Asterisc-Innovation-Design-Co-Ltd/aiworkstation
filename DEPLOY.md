@@ -39,7 +39,7 @@ assets/        ← process_assets.sh 產生的素材
 api/           ← 含 config.php、.htaccess
 ```
 
-不要上傳：`assets-src/`、`tools/`、`*.md`、`.git/`（就算誤傳，`.htaccess` 也會擋掉 `tools/`、`assets-src/` 與 `.md` 檔）。
+不要上傳：`assets-src/`、`tools/`、`v1/`（舊版快照，只供預覽比較）、`*.md`、`.git/`（就算誤傳，`.htaccess` 也會擋掉 `tools/`、`assets-src/` 與 `.md` 檔）。
 
 建議作法：在電腦上把上述檔案壓成 zip → cPanel「檔案管理員」進入 `public_html` → 上傳 → 解壓縮。檔案管理員右上「設定」勾選「顯示隱藏檔案」，才看得到 `.htaccess`。
 
