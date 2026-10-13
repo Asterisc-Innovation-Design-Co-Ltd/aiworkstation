@@ -1,4 +1,4 @@
-# FEELWONDER 企業大腦主機 Landing Page
+# FEELWONDER 企業AI主機 Landing Page
 
 沉浸式捲動敘事（scrollytelling）介紹頁與需求評估問卷。純靜態 HTML／CSS／原生 JavaScript，動畫使用 GSAP 3.12.5 + ScrollTrigger（cdnjs），問卷以 PHP `mail()` 寄送。
 
