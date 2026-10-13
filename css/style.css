@@ -185,6 +185,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
 @media (max-width: 899px) {
   .site-nav__links { display: none; }
 }
+@media (max-width: 767px) {
+  .site-nav > .btn { display: none; }
+  /* 動態版：按鈕與信任列由 main.js 在往下捲時淡入，先隱藏避免閃現 */
+  .motion .hero__content .btn-row, .motion .hero__trust { opacity: 0; visibility: hidden; }
+}
 
 /* ==========================================================================
    捲動轉場（scrolly）
@@ -282,7 +287,6 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .hero__lead { font-size: 16px; line-height: 1.55; }
   .hero__content .btn--lg { min-height: 48px; font-size: 16px; }
   .hero__trust { font-size: 13px; line-height: 1.5; }
-  .motion .scroll-cue { display: none; }
 }
 @media (max-width: 359px) {
   :root { --fs-h1: 32px; --gutter: 16px; }
@@ -575,13 +579,6 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .cta__inner { padding-top: var(--section-y); padding-bottom: var(--section-y); }
 .cta__text { max-width: 680px; display: flex; flex-direction: column; gap: var(--sp-16); }
 .cta__action { display: flex; flex-direction: column; gap: var(--sp-12); align-items: flex-start; margin-top: var(--sp-16); }
-.video-toggle {
-  position: absolute; right: var(--gutter); bottom: 24px; z-index: 2;
-  min-height: 44px; padding: 0 16px; border-radius: var(--r-pill);
-  border: 1px solid rgba(244, 238, 228, 0.45); background: rgba(20, 18, 15, 0.6); color: var(--c-on-dark);
-  font-size: 14px; cursor: pointer;
-}
-.video-toggle:hover { background: rgba(20, 18, 15, 0.85); }
 @media (max-width: 767px) {
   .cta { min-height: 0; align-items: flex-start; }
   .scrim--cta {
@@ -590,7 +587,6 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .cta__inner { padding-bottom: 120px; }
   .cta__action { align-self: stretch; }
   .cta__action .btn { width: 100%; }
-  .video-toggle { left: var(--gutter); right: auto; }
 }
 
 /* 頁尾 */

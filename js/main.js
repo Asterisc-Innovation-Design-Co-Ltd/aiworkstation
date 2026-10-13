@@ -89,13 +89,33 @@
   var hero = document.querySelector('.scrolly--hero');
   if (hero) {
     hero._seq = setupSequence(hero);
-    gsap.timeline({
-      scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom bottom', scrub: true }
-    })
-      .to(hero.querySelectorAll('[data-hero-fade]'), { autoAlpha: 0, y: -64, ease: 'power1.in', duration: 0.38 }, 0.1)
-      .to(hero.querySelector('.scrim--hero'), { autoAlpha: 0, ease: 'none', duration: 0.38 }, 0.1)
-      .fromTo(hero.querySelector('[data-hero-end]'), { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 0.12 }, 0.82)
-      .set({}, {}, 1);
+    var heroFade = hero.querySelectorAll('[data-hero-fade]');
+    var heroScrim = hero.querySelector('.scrim--hero');
+    var heroEnd = hero.querySelector('[data-hero-end]');
+    var heroTimeline = function () {
+      return gsap.timeline({
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom bottom', scrub: true }
+      });
+    };
+    var mm = gsap.matchMedia();
+    mm.add('(min-width: 768px)', function () {
+      heroTimeline()
+        .to(heroFade, { autoAlpha: 0, y: -64, ease: 'power1.in', duration: 0.38 }, 0.1)
+        .to(heroScrim, { autoAlpha: 0, ease: 'none', duration: 0.38 }, 0.1)
+        .fromTo(heroEnd, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 0.12 }, 0.82)
+        .set({}, {}, 1);
+    });
+    /* 手機：首屏只有 logo、主標、副標；往下捲一點，按鈕與信任列才浮現 */
+    mm.add(MOBILE_QUERY, function () {
+      heroTimeline()
+        .fromTo(hero.querySelectorAll('.hero__content .btn-row, .hero__trust'),
+          { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 0.1, stagger: 0.04 }, 0.03)
+        .to(hero.querySelector('.scroll-cue'), { autoAlpha: 0, ease: 'none', duration: 0.05 }, 0.03)
+        .to(hero.querySelector('.hero__content'), { autoAlpha: 0, y: -64, ease: 'power1.in', duration: 0.3 }, 0.32)
+        .to(heroScrim, { autoAlpha: 0, ease: 'none', duration: 0.3 }, 0.32)
+        .fromTo(heroEnd, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 0.12 }, 0.82)
+        .set({}, {}, 1);
+    });
   }
 
   /* 轉場 ② 文件流入：結尾浮現文字 */
@@ -177,12 +197,8 @@
 
   /* ---------- 轉場 ④ 頁尾循環影片：接近視窗才載入，離開時暫停 ---------- */
   var video = document.querySelector('.cta__video');
-  var toggle = document.querySelector('.video-toggle');
   if (video) {
-    var activated = false, userPaused = false, visible = false;
-    var setToggleLabel = function () {
-      toggle.textContent = video.paused ? '播放背景影片' : '暫停背景影片';
-    };
+    var activated = false;
     var play = function () {
       var p = video.play();
       if (p && p.catch) p.catch(function () {});
@@ -198,30 +214,17 @@
         source.type = t[1];
         video.appendChild(source);
       });
-      video.addEventListener('playing', function () {
-        video.classList.add('is-playing');
-        if (toggle) { toggle.hidden = false; setToggleLabel(); }
-      });
-      video.addEventListener('pause', function () { if (toggle) setToggleLabel(); });
+      video.addEventListener('playing', function () { video.classList.add('is-playing'); });
       video.load();
     };
     new IntersectionObserver(function (entries) {
-      visible = entries[0].isIntersecting;
-      if (visible) {
+      if (entries[0].isIntersecting) {
         if (!activated) activate();
-        if (!userPaused) play();
+        play();
       } else if (activated) {
         video.pause();
       }
     }, { rootMargin: '25% 0px 25% 0px' }).observe(video.closest('.cta'));
-
-    if (toggle) {
-      toggle.addEventListener('click', function () {
-        if (video.paused) { userPaused = false; play(); }
-        else { userPaused = true; video.pause(); }
-        setToggleLabel();
-      });
-    }
   }
 
   /* 字體載入、或 content-visibility 區塊實際排版後，頁面高度會改變：重新計算捲動位置 */
