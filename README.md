@@ -31,7 +31,7 @@ php -S localhost:8080        # 在專案根目錄執行，開 http://localhost:8
 
 - 根目錄永遠是最新版本。
 - `v1/`：第一版快照（2026-10-13，產品名改為 FEELWONDER 企業AI主機／Enclave 之後），預覽網址 `…/aiworkstation/v1/`，不再修改。
-- Git 標籤 `v1` 對應同一個版本；比較改了哪些：`https://github.com/Asterisc-Innovation-Design-Co-Ltd/aiworkstation/compare/v1...claude/gracious-bohr-5wlvh7`
+- v1 對應的提交是 `88480d2`；比較之後改了哪些：`https://github.com/Asterisc-Innovation-Design-Co-Ltd/aiworkstation/compare/88480d2...claude/gracious-bohr-5wlvh7`
 
 ## 動態與備援
 
