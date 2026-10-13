@@ -177,9 +177,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .site-nav__links { display: flex; align-items: center; gap: var(--sp-4); }
 .site-nav__links a {
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px;
-  color: #2E2A24; text-shadow: 0 0 2px rgba(246, 242, 234, 0.7), 0 0 12px rgba(246, 242, 234, 0.9); text-decoration: none; font-size: 15px; border-radius: var(--r-pill);
+  color: #E6DED0; text-shadow: 0 1px 8px rgba(20, 18, 15, 0.5); text-decoration: none; font-size: 15px; border-radius: var(--r-pill);
 }
-.site-nav__links a:hover { color: var(--c-ink); background: rgba(246, 242, 234, 0.7); }
+.site-nav__links a:hover { color: #FFFFFF; background: rgba(20, 18, 15, 0.45); }
+.site-header .brand { color: var(--c-on-dark); text-shadow: 0 1px 8px rgba(20, 18, 15, 0.5); }
+.site-header :focus-visible { outline-color: var(--c-on-dark); }
 @media (max-width: 899px) {
   .site-nav__links { display: none; }
 }
@@ -224,8 +226,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .scrolly--hero .scrolly__stage { min-height: 100vh; min-height: 100svh; }
 .scrim--hero {
   background:
-    linear-gradient(180deg, rgba(246, 242, 234, 0.85) 0, rgba(246, 242, 234, 0) 140px),
-    linear-gradient(90deg, rgba(246, 242, 234, 0.78) 0%, rgba(246, 242, 234, 0.62) 38%, rgba(246, 242, 234, 0) 66%);
+    linear-gradient(180deg, rgba(20, 18, 15, 0.7) 0, rgba(20, 18, 15, 0) 140px),
+    linear-gradient(90deg, rgba(20, 18, 15, 0.84) 0%, rgba(20, 18, 15, 0.7) 40%, rgba(20, 18, 15, 0) 72%);
 }
 .hero__content {
   position: relative; z-index: 2;
@@ -236,10 +238,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .hero__content .h1 { max-width: 760px; }
 .hero__lead { font-size: var(--fs-lead-hero); color: var(--c-muted); }
 .hero__trust { font-size: 14px; color: var(--c-muted); }
-/* 遮罩較淡時，文字加深並加一圈淡光暈，背景有陰影處仍清楚 */
-.hero__content .eyebrow, .hero__lead, .hero__trust { color: #2E2A24; }
-.hero__content { text-shadow: 0 0 2px rgba(246, 242, 234, 0.7), 0 0 14px rgba(246, 242, 234, 0.9); }
+/* 深色遮罩上的淺色文字 */
+.hero__content { color: var(--c-on-dark); text-shadow: 0 1px 12px rgba(20, 18, 15, 0.45); }
+.hero__content .eyebrow, .hero__trust { color: #D9CFBF; }
+.hero__lead { color: #E6DED0; }
 .hero__content .btn { text-shadow: none; }
+.hero__content .btn--ghost { background: rgba(20, 18, 15, 0.35); border-color: rgba(244, 238, 228, 0.55); color: var(--c-on-dark); }
+.hero__content .btn--ghost:hover { background: rgba(20, 18, 15, 0.6); border-color: var(--c-on-dark); color: #FFFFFF; }
+.scrolly--hero :focus-visible { outline-color: var(--c-on-dark); }
 .hero__endnote {
   position: absolute; z-index: 2; left: 0; right: 0; bottom: 9%; margin: 0 auto; width: max-content; max-width: calc(100% - 2 * var(--gutter));
   font-family: var(--f-mono); font-size: 13px; font-weight: 500; letter-spacing: 0.08em;
@@ -249,10 +255,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .scroll-cue { display: none; }
 .motion .scroll-cue {
   display: block; position: absolute; z-index: 2; left: 50%; bottom: 28px; width: 1px; height: 48px;
-  background: rgba(31, 27, 22, 0.18); overflow: hidden;
+  background: rgba(244, 238, 228, 0.25); overflow: hidden;
 }
 .motion .scroll-cue span {
-  position: absolute; left: 0; top: 0; width: 1px; height: 40%; background: var(--c-ink);
+  position: absolute; left: 0; top: 0; width: 1px; height: 40%; background: var(--c-on-dark);
   transform: translateY(-100%);
   animation: cue 2.2s var(--ease-out) infinite;
 }
@@ -261,7 +267,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 @media (max-width: 767px) {
   .scrim--hero {
-    background: linear-gradient(180deg, rgba(246, 242, 234, 0.86) 0%, rgba(246, 242, 234, 0.74) 58%, rgba(246, 242, 234, 0.15) 86%, rgba(246, 242, 234, 0) 100%);
+    background: linear-gradient(180deg, rgba(20, 18, 15, 0.86) 0%, rgba(20, 18, 15, 0.8) 68%, rgba(20, 18, 15, 0.25) 92%, rgba(20, 18, 15, 0.1) 100%);
   }
   .motion .scrolly--hero .scrolly__stage { justify-content: flex-start; }
   .hero__content { gap: var(--sp-20); padding-bottom: 96px; }
