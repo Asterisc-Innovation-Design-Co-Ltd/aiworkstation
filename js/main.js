@@ -8,7 +8,7 @@
   var root = document.documentElement;
   var MOBILE_QUERY = '(max-width: 767px)';
   var DEFAULT_FRAMES = { desktop: 120, mobile: 60 };
-  /* 轉場 ③ 價格標籤切換點（捲動進度 0–1）：入門型／標準型／高效型。
+  /* 轉場 ③ 價格標籤切換點（捲動進度 0–1）：工作室版／企業版／旗艦版。
      對齊 lineup 影片中三台主機依序亮起的時間（約 12%、39%、76%）；重做影片後請重新對齊 */
   var LINEUP_STEPS = [0, 0.38, 0.75];
   /* 三台主機在影格中的水平位置（寬度比例）；畫面被裁切時（例如直式手機）鏡頭會平移到亮起的那台 */
@@ -200,14 +200,18 @@
   if (tco) {
     var MONTHS = Number(tco.getAttribute('data-months'));
     var cloudPerPerson = Number(tco.getAttribute('data-cloud'));
+    var heavyPerPerson = Number(tco.getAttribute('data-heavy') || 0);
+    var heavyShare = Number(tco.getAttribute('data-heavy-share') || 0);
     var monthNum = tco.querySelector('.tco__month-num');
     var fmt = function (n) { return 'NT$' + Math.round(n).toLocaleString('en-US'); };
     var groups = Array.prototype.map.call(tco.querySelectorAll('.tco__group'), function (g) {
       var once = Number(g.getAttribute('data-once')), maint = Number(g.getAttribute('data-maint'));
       var elec = Number(g.getAttribute('data-elec')), people = Number(g.getAttribute('data-people'));
-      /* 主機：一次性費用＋每月電費＋第 2、3 年年初各付一次年度維護；雲端：每人每月訂閱 */
+      /* 主機：一次性費用＋每月電費＋第 2、3 年年初各付一次年度維護；雲端：每人每月訂閱，部分同仁用進階方案 */
+      var heavy = Math.round(people * heavyShare);
+      var cloudMonthly = cloudPerPerson * (people - heavy) + heavyPerPerson * heavy;
       var local = function (t) { return once + elec * t + maint * ((t > 12 ? 1 : 0) + (t > 24 ? 1 : 0)); };
-      var cloud = function (t) { return cloudPerPerson * people * t; };
+      var cloud = function (t) { return cloudMonthly * t; };
       var cross = 0;
       for (var t = 1; t <= MONTHS; t++) { if (cloud(t) >= local(t)) { cross = t; break; } }
       var crossEl = g.querySelector('.tco__cross');
