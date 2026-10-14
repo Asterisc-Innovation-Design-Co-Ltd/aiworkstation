@@ -517,7 +517,6 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .tco__after { font-size: 13px; color: var(--c-on-dark-muted); }
 .tco__cross, .tco__after { opacity: 0; transform: translateY(6px); transition: opacity .35s ease, transform .35s ease; }
 .tco__cross.is-on, .tco__after.is-on { opacity: 1; transform: none; }
-.motion .tco__bar { transition: width .25s linear; }
 .tco__note { font-size: 13px; color: var(--c-on-dark-muted); }
 @media (hover: hover) {
   .tco__row::after {

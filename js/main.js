@@ -195,7 +195,7 @@
     if (el) reveal([el]);
   });
 
-  /* ---------- 05 成本圖：捲動代表時間，第 0–36 個月的累計花費 ---------- */
+  /* ---------- 05 成本圖：進入畫面時自動播放一次，第 0–36 個月的累計花費 ---------- */
   var tco = document.querySelector('.tco[data-months]');
   if (tco) {
     var MONTHS = Number(tco.getAttribute('data-months'));
@@ -218,27 +218,30 @@
         crossEl: crossEl, afterEl: g.querySelector('.tco__after')
       };
     });
-    var shownMonth = -1;
+    /* t 可為小數：長條連續變化；計數器、金額與提示以整數月份顯示 */
     var renderMonth = function (t) {
-      if (t === shownMonth) return;
-      shownMonth = t;
-      monthNum.textContent = t;
+      var month = Math.round(t);
+      monthNum.textContent = month;
       groups.forEach(function (d) {
-        var l = d.local(t), c = d.cloud(t);
-        d.bars[0].style.setProperty('--v', (l / d.max * 100).toFixed(2));
-        d.bars[1].style.setProperty('--v', (c / d.max * 100).toFixed(2));
-        d.values[0].textContent = fmt(l);
-        d.values[1].textContent = fmt(c);
-        d.crossEl.classList.toggle('is-on', d.cross > 0 && t >= d.cross);
-        d.afterEl.classList.toggle('is-on', t >= MONTHS);
+        d.bars[0].style.setProperty('--v', (d.local(t) / d.max * 100).toFixed(2));
+        d.bars[1].style.setProperty('--v', (d.cloud(t) / d.max * 100).toFixed(2));
+        d.values[0].textContent = fmt(d.local(month));
+        d.values[1].textContent = fmt(d.cloud(month));
+        d.crossEl.classList.toggle('is-on', d.cross > 0 && month >= d.cross);
+        d.afterEl.classList.toggle('is-on', month >= MONTHS);
       });
     };
-    var tcoTrigger = ScrollTrigger.create({
-      trigger: tco, start: 'top 75%', end: 'bottom 55%',
-      onUpdate: function (self) { renderMonth(Math.round(self.progress * MONTHS)); },
-      onRefresh: function (self) { renderMonth(Math.round(self.progress * MONTHS)); }
-    });
-    renderMonth(Math.round(tcoTrigger.progress * MONTHS));
+    renderMonth(0);
+    var clock = { t: 0 };
+    var tcoObserver = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      tcoObserver.disconnect();
+      gsap.to(clock, {
+        t: MONTHS, duration: 2.6, ease: 'power1.inOut', delay: 0.2,
+        onUpdate: function () { renderMonth(clock.t); }
+      });
+    }, { rootMargin: '0px 0px -35% 0px' }); /* 圖表頂端進入視窗上方 65% 時開始，與圖表高度無關 */
+    tcoObserver.observe(tco);
   }
 
   /* ---------- 轉場 ④ 頁尾循環影片：接近視窗才載入，離開時暫停 ---------- */
