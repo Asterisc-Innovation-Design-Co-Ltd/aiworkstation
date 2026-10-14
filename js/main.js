@@ -218,13 +218,15 @@
         crossEl: crossEl, afterEl: g.querySelector('.tco__after')
       };
     });
+    /* 三組共用同一把比例尺：以所有組第 36 個月的最高金額為滿格 */
+    var scaleMax = Math.max.apply(null, groups.map(function (d) { return d.max; }));
     /* t 可為小數：長條連續變化；計數器、金額與提示以整數月份顯示 */
     var renderMonth = function (t) {
       var month = Math.round(t);
       monthNum.textContent = month;
       groups.forEach(function (d) {
-        d.bars[0].style.setProperty('--v', (d.local(t) / d.max * 100).toFixed(2));
-        d.bars[1].style.setProperty('--v', (d.cloud(t) / d.max * 100).toFixed(2));
+        d.bars[0].style.setProperty('--v', (d.local(t) / scaleMax * 100).toFixed(2));
+        d.bars[1].style.setProperty('--v', (d.cloud(t) / scaleMax * 100).toFixed(2));
         d.values[0].textContent = fmt(d.local(month));
         d.values[1].textContent = fmt(d.cloud(month));
         d.crossEl.classList.toggle('is-on', d.cross > 0 && month >= d.cross);
