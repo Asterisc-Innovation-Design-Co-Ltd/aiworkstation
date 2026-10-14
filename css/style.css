@@ -496,20 +496,28 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* 三年總持有成本圖（色票已驗證：深色底 #221E19，金 #B98A45／藍 #5B8BC9） */
 .tco { margin: 0; background: var(--c-dark-card); border-radius: var(--r-card); padding: var(--sp-32); display: flex; flex-direction: column; gap: var(--sp-24); }
 .tco__head { display: flex; flex-wrap: wrap; gap: var(--sp-12) var(--sp-24); align-items: baseline; justify-content: space-between; }
+.tco__meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-12) var(--sp-24); }
+.tco__month { font-family: var(--f-mono); font-size: 14px; color: var(--c-on-dark-muted); }
+.tco__month-num { display: inline-block; min-width: 2ch; text-align: right; font-size: 28px; font-weight: 600; color: var(--c-on-dark); font-variant-numeric: tabular-nums; }
 .tco__legend { display: flex; gap: var(--sp-20); font-size: 14px; color: var(--c-on-dark-muted); }
 .tco__legend li { display: inline-flex; align-items: center; gap: 8px; }
 .tco__swatch { width: 12px; height: 12px; border-radius: 3px; }
 .tco__swatch--local, .tco__bar--local { background: #B98A45; }
 .tco__swatch--cloud, .tco__bar--cloud { background: #5B8BC9; }
 .tco__chart { display: flex; flex-direction: column; gap: var(--sp-24); }
-.tco__group { display: grid; grid-template-columns: 120px minmax(0, 1fr) 150px; gap: var(--sp-16); align-items: center; }
+.tco__group { display: grid; grid-template-columns: 120px minmax(0, 1fr) 260px; gap: var(--sp-16); align-items: center; }
 .tco__label { font-weight: 700; font-size: 17px; line-height: 1.3; }
 .tco__label span { display: block; font-weight: 400; font-size: 13px; color: var(--c-on-dark-muted); }
 .tco__bars { display: flex; flex-direction: column; gap: 2px; border-left: 1px solid var(--c-dark-chip); }
 .tco__row { position: relative; display: flex; align-items: center; gap: 10px; min-height: 18px; }
 .tco__bar { flex: none; height: 18px; width: calc(var(--v) * var(--tco-k, 0.72%)); min-width: 3px; border-radius: 0 4px 4px 0; }
-.tco__value { font-family: var(--f-mono); font-size: 13px; color: var(--c-on-dark); white-space: nowrap; }
-.tco__diff { font-size: 14px; font-weight: 700; color: var(--c-on-dark); }
+.tco__value { font-family: var(--f-mono); font-size: 13px; color: var(--c-on-dark); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tco__notes { display: flex; flex-direction: column; gap: 4px; }
+.tco__cross { font-size: 14px; font-weight: 700; color: var(--c-on-dark); }
+.tco__after { font-size: 13px; color: var(--c-on-dark-muted); }
+.tco__cross, .tco__after { opacity: 0; transform: translateY(6px); transition: opacity .35s ease, transform .35s ease; }
+.tco__cross.is-on, .tco__after.is-on { opacity: 1; transform: none; }
+.motion .tco__bar { transition: width .25s linear; }
 .tco__note { font-size: 13px; color: var(--c-on-dark-muted); }
 @media (hover: hover) {
   .tco__row::after {
@@ -523,6 +531,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 @media (max-width: 767px) {
   .tco { padding: var(--sp-20); }
   .tco__group { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .tco__month-num { font-size: 24px; }
   .tco__label span { display: inline; margin-left: 8px; }
   .tco__bars { --tco-k: 0.6%; }
 }
