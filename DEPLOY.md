@@ -14,6 +14,7 @@ bash tools/process_assets.sh
 - 原始素材下載到 `assets-src/`，這個資料夾不用上傳、也不進 git。
 - `process_assets.sh` 會產生 `assets/frames/`、`assets/video/`、`assets/img/`，自動把 `index.html` 的影格數量與素材版本號（`?v=`）更新好，最後列出各資料夾大小。全部素材超過 30 MB 時，會自動降低品質或影格數重做。
 - 想換掉某支影片：用新版本覆蓋 `assets-src/` 內同一個檔名，再執行一次 `process_assets.sh`。
+- `assets/img/plan-{entry,business,pro}.webp`（方案卡的三台主機去背圖）不是由腳本產生，已直接放在 repo 裡；重做素材時保留即可。
 
 ## 2. 填寫設定
 
